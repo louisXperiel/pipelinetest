@@ -7,9 +7,8 @@ node('builder') {
         checkout scm
     }
     stage ('Testing'){
-        env.NODE_HOME = tool 'website'
-        sh "${NODE_HOME}/bin/yarn install"
-        sh "${NODE_HOME}/bin/yarn test a --watchAll=false"
+        //env.NODE_HOME = tool 'website'
+        env
         env.BRANCH_NAME
         notifyDeployedVersion('1.1.1')
     }
