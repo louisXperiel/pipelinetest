@@ -1,4 +1,4 @@
-node('tester') {
+node('builder') {
     def project = 'xperiel-web'
     def appName = 'home'
     def region = 'us-central1-c'
@@ -26,8 +26,4 @@ emailext (
 
 def envrironmentInfo() {
     sh 'env'
-}
-
-def param() {
-    echo "${params.Greeting} World!"
 }
