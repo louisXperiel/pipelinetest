@@ -1,4 +1,4 @@
-node('builder') {
+node('tester') {
     def project = 'xperiel-web'
     def appName = 'home'
     def region = 'us-central1-c'
