@@ -11,7 +11,7 @@ node('builder') {
         sh "${NODE_HOME}/bin/yarn install"
         sh "${NODE_HOME}/bin/yarn test a --watchAll=false"
         env.BRANCH_NAME
-        notifyDeployedVersion(1.1.1)
+        notifyDeployedVersion('1.1.1')
     }
     def notifyDeployedVersion(String version) {
     emailext (
