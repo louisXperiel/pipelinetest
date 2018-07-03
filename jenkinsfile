@@ -7,8 +7,7 @@ node('tester') {
         checkout scm
     }
     stage ('Testing'){
-        //env.NODE_HOME = tool 'website'
-        sh 'echo hello'
+        env.NODE_HOME = tool 'website'
         envrironmentInfo()
         //notifyDeployedVersion('1.1.1')
     }
