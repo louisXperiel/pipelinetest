@@ -2,6 +2,9 @@ node('tester') {
     def project = 'xperiel-web'
     def appName = 'home'
     def region = 'us-central1-c'
+    parameters {
+        string(name: 'Greeting', defaultValue: 'Hello', description: 'How should I greet the world?')
+    }
 
     stage ('Checkout'){
         checkout scm
@@ -9,7 +12,6 @@ node('tester') {
     stage ('Testing'){
         env.NODE_HOME = tool 'website'
         envrironmentInfo()
-        choice(choices: 'none\nIGR\nPRD', description: 'Target server to deploy', name: 'deployServer')
         //notifyDeployedVersion('1.1.1')
     }
 }
