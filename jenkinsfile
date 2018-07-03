@@ -8,8 +8,7 @@ node('builder') {
     }
     stage ('Testing'){
         //env.NODE_HOME = tool 'website'
-        env
-        env.BRANCH_NAME
+        envrironmentInfo()
         notifyDeployedVersion('1.1.1')
     }
 }
@@ -19,4 +18,8 @@ emailext (
     body: "DEPLOYED VERSION '${version}': Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]': Check console output at '${env.BUILD_URL}' [${env.BUILD_NUMBER}]",
     to: "louis@xperiel.com"
     )
+}
+
+def envrironmentInfo() {
+    env
 }
