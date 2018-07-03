@@ -9,7 +9,7 @@ node('builder') {
     stage ('Testing'){
         //env.NODE_HOME = tool 'website'
         //envrironmentInfo()
-        println(flavor("master"))
+        flavor("master")
         //notifyDeployedVersion('1.1.1')
     }
 }
