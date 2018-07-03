@@ -1,4 +1,4 @@
-node('tester') {
+node('builder') {
     def project = 'xperiel-web'
     def appName = 'home'
     def region = 'us-central1-c'
@@ -6,8 +6,11 @@ node('tester') {
     stage ('Checkout'){
         checkout scm
     }
-    stage ('Sidecar test'){
-        docker.image('maven').withRun('clean build')
+    stage ('Testing'){
+        //env.NODE_HOME = tool 'website'
+        envrironmentInfo()
+
+        //notifyDeployedVersion('1.1.1')
     }
 }
 def notifyDeployedVersion(String version) {
