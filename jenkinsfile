@@ -11,7 +11,8 @@ node('tester') {
     }
     stage ('Testing'){
         env.NODE_HOME = tool 'website'
-        envrironmentInfo()
+        //envrironmentInfo()
+        param()
         //notifyDeployedVersion('1.1.1')
     }
 }
@@ -25,4 +26,8 @@ emailext (
 
 def envrironmentInfo() {
     sh 'env'
+}
+
+def param() {
+    echo "${params.Greeting} World!"
 }
