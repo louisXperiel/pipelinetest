@@ -2,9 +2,6 @@ node('builder') {
     def project = 'xperiel-web'
     def appName = 'home'
     def region = 'us-central1-c'
-    params {
-        string(name: 'Greeting', defaultValue: 'Hello', description: 'How should I greet the world?')
-    }
 
     stage ('Checkout'){
         checkout scm
@@ -12,7 +9,8 @@ node('builder') {
     stage ('Testing'){
         //env.NODE_HOME = tool 'website'
         //envrironmentInfo()
-        echo "${params.Greeting} World!"
+        flav = flavor(env.BRANCH_NAME)
+        echo "${flavor}"
         //notifyDeployedVersion('1.1.1')
     }
 }
@@ -26,4 +24,10 @@ emailext (
 
 def envrironmentInfo() {
     sh 'env'
+}
+
+def flavor(branchName) {
+  def matcher = (env.BRANCH_NAME =~ /QA_([a-z_]+)/)
+  assert matcher.matches()
+  matcher[0][1]
 }
