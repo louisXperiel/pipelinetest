@@ -1,0 +1,23 @@
+node('builder') {
+    def project = 'xperiel-web'
+    def appName = 'home'
+    def region = 'us-central1-c'
+
+    stage ('Checkout'){
+        checkout scm
+    }
+    stage ('Testing'){
+        env.NODE_HOME = tool 'website'
+        sh "${NODE_HOME}/bin/yarn install"
+        sh "${NODE_HOME}/bin/yarn test a --watchAll=false"
+        env.BRANCH_NAME
+        notifyDeployedVersion(1.1.1)
+    }
+    def notifyDeployedVersion(String version) {
+    emailext (
+        subject: "Deployed: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+        body: "DEPLOYED VERSION '${version}': Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]': Check console output at '${env.BUILD_URL}' [${env.BUILD_NUMBER}]",
+        to: "louis@xperiel.com"
+        )
+    }
+}
