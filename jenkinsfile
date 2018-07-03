@@ -2,7 +2,7 @@ node('builder') {
     def project = 'xperiel-web'
     def appName = 'home'
     def region = 'us-central1-c'
-    parameters {
+    params {
         string(name: 'Greeting', defaultValue: 'Hello', description: 'How should I greet the world?')
     }
 
@@ -10,7 +10,7 @@ node('builder') {
         checkout scm
     }
     stage ('Testing'){
-        env.NODE_HOME = tool 'website'
+        //env.NODE_HOME = tool 'website'
         //envrironmentInfo()
         echo "${params.Greeting} World!"
         //notifyDeployedVersion('1.1.1')
