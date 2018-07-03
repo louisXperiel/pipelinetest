@@ -7,12 +7,12 @@ pipeline {
     //         args  '-v /tmp:/tmp'
     //     }
     // }
-    stages {
-        post {
-            always {
-                echo 'BULDING PIPELINE BRANCH ${}'
-            }
+    post {
+        always {
+            echo 'BULDING PIPELINE BRANCH env.BRANCH'
         }
+    }
+    stages {
         stage('Example') {
             input {
                 message "Should we continue?"
