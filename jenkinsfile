@@ -9,6 +9,7 @@ node('tester') {
     stage ('Testing'){
         env.NODE_HOME = tool 'website'
         envrironmentInfo()
+        choice(choices: 'none\nIGR\nPRD', description: 'Target server to deploy', name: 'deployServer')
         //notifyDeployedVersion('1.1.1')
     }
 }
