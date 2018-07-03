@@ -12,7 +12,7 @@ node('tester') {
     stage ('Testing'){
         env.NODE_HOME = tool 'website'
         //envrironmentInfo()
-        param()
+        echo "${params.Greeting} World!"
         //notifyDeployedVersion('1.1.1')
     }
 }
