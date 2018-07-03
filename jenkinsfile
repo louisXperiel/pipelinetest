@@ -9,6 +9,7 @@ node('tester') {
     stage ('Testing'){
         //env.NODE_HOME = tool 'website'
         sh 'echo hello'
+        env
         envrironmentInfo()
         //notifyDeployedVersion('1.1.1')
     }
