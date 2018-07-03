@@ -1,5 +1,12 @@
 pipeline {
-    agent 'builder'
+    agent { node { label 'builder' } }
+    // agent {
+    //     docker {
+    //         image 'maven:3-alpine'
+    //         label 'build'
+    //         args  '-v /tmp:/tmp'
+    //     }
+    // }
     stages {
         post {
             always {
