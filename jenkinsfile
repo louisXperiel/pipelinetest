@@ -9,8 +9,7 @@ node('builder') {
     stage ('Testing'){
         //env.NODE_HOME = tool 'website'
         //envrironmentInfo()
-        flav = flavor(env.BRANCH_NAME)
-        echo "${flavor}"
+        println(flavor(env.BRANCH_NAME))
         //notifyDeployedVersion('1.1.1')
     }
 }
