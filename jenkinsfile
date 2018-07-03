@@ -6,11 +6,8 @@ node('builder') {
     stage ('Checkout'){
         checkout scm
     }
-    stage ('Testing'){
-        //env.NODE_HOME = tool 'website'
-        //envrironmentInfo()
-        flavor("master")
-        //notifyDeployedVersion('1.1.1')
+    stage ('Sidecar test'){
+        docker.image('maven').withRun('clean build')
     }
 }
 def notifyDeployedVersion(String version) {
