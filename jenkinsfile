@@ -9,7 +9,7 @@ node('tester') {
     stage ('Testing'){
         //env.NODE_HOME = tool 'website'
         sh 'echo hello'
-        println(env)
+        sh 'env'
         envrironmentInfo()
         //notifyDeployedVersion('1.1.1')
     }
@@ -23,5 +23,5 @@ emailext (
 }
 
 def envrironmentInfo() {
-    env
+    sh 'env'
 }
