@@ -1,30 +1,34 @@
-pipeline {
-    agent { node { label 'builder' } }
-    // agent {
-    //     docker {
-    //         image 'maven:3-alpine'
-    //         label 'build'
-    //         args  '-v /tmp:/tmp'
-    //     }
-    // }
-    post {
-        always {
-            echo 'BULDING PIPELINE BRANCH env.BRANCH'
-        }
+node('tester') {
+    def project = 'xperiel-web'
+    def appName = 'home'
+    def region = 'us-central1-c'
+
+    stage ('Checkout'){
+        checkout scm
     }
-    stages {
-        stage('Example') {
-            input {
-                message "Should we continue?"
-                ok "Yes, we should."
-                submitter "alice,bob"
-                parameters {
-                    string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
-                }
-            }
-            steps {
-                echo "Hello, ${PERSON}, nice to meet you."
-            }
+    stage ('Testing'){
+        //env.NODE_HOME = tool 'website'
+        envrironmentInfo()
+        when {
+            expression { currentBuild.result == 'SUCCESS' }
         }
+        //notifyDeployedVersion('1.1.1')
     }
+}
+def notifyDeployedVersion(String version) {
+emailext (
+    subject: "Deployed: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+    body: "DEPLOYED VERSION '${version}': Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]': Check console output at '${env.BUILD_URL}' [${env.BUILD_NUMBER}]",
+    to: "louis@xperiel.com"
+    )
+}
+
+def envrironmentInfo() {
+    sh 'env'
+}
+
+def flavor(branchName) {
+  def matcher = (env.BRANCH_NAME =~ /QA_([a-z_]+)/)
+  assert matcher.matches()
+  matcher[0][1]
 }

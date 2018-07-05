@@ -1,32 +1,30 @@
-node('builder') {
-    def project = 'xperiel-web'
-    def appName = 'home'
-    def region = 'us-central1-c'
-
-    stage ('Checkout'){
-        checkout scm
-    }
-    stage ('Testing'){
-        //env.NODE_HOME = tool 'website'
-        envrironmentInfo()
-
-        //notifyDeployedVersion('1.1.1')
-    }
+node('tester') {
+        // def repo = "https://github.com/Xperiel/home.git"
+        def project = 'xperiel-web'
+        def appName = 'home'
+        def region = 'us-central1-c'
+        def major = 1
+        def minor = 0 
+        def snapshot = "${appName}_snapshot"
+        def version = "${major}.${minor}.${env.BUILD_NUMBER}"
+        def snapshotImageTag = "gcr.io/${project}/${snapshot}:${version}"
+        def releaseImageTag = "gcr.io/${project}/${appName}:${version}"
+  
+        stage ('Checkout'){
+          checkout scm
+        }
+        stage ('Deploy to http://web.staging.xperiel.com/'){
+            environmentInfo("${version}")
+            sh "sed -i.bak s/:\\\${IMAGE_TAG}/:${version}/g deploy/stg/stg-deploy.yaml"
+            //kubeSubst("IMAGE_TAG", "${version}", "deploy/stg/stg-deploy.yaml")
+            sh 'cat deploy/stg/stg-deploy.yaml'
+        }
 }
-def notifyDeployedVersion(String version) {
-emailext (
-    subject: "Deployed: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-    body: "DEPLOYED VERSION '${version}': Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]': Check console output at '${env.BUILD_URL}' [${env.BUILD_NUMBER}]",
-    to: "louis@xperiel.com"
-    )
+def kubeSubst(placeholder, version, file) {
+    //sh"echo '$placeholder$version$file'"
+    sh "sed -i.bak s/:\\\${$placeholder}/:$version/g $file.yml"
 }
 
-def envrironmentInfo() {
-    sh 'env'
-}
-
-def flavor(branchName) {
-  def matcher = (env.BRANCH_NAME =~ /QA_([a-z_]+)/)
-  assert matcher.matches()
-  matcher[0][1]
+def environmentInfo(test) {
+    sh "echo 'hello $test'"
 }
